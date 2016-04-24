@@ -21,10 +21,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
         self.window!.backgroundColor = UIColor.whiteColor()
         self.window!.makeKeyAndVisible()
-//        let one_vc = CanvasViewController(nibName:nil,bundle: nil)
-        let one_vc = ViewController(nibName:nil,bundle: nil)
+        
+        //Navigation
+        let one_vc = ViewController()
         let nvc=UINavigationController(rootViewController:one_vc)
-        self.window!.rootViewController=nvc;
+//        print("naviHeight:" ,nvc.navigationBar.frame.size.height)
+//        print("statusHeight",UIApplication.sharedApplication().statusBarFrame.size.height)
+
+        //LoginViewController
+//        let nvc = LoginViewController()
+        
+        //TestViewContrller
+//        let nvc = TestViewController()
+//        let nvc = AnimeTestViewController()
+//        let nvc = AmuseViewController()
+        self.window!.rootViewController=nvc
         
         return true
     }

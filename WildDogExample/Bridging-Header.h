@@ -18,4 +18,6 @@
 #import "SixthTangramView.h"
 #import "SeventhTangramView.h"
 
+#import "UIImageView+WebCache.h"
+
 #endif /* Bridging_Header_h */

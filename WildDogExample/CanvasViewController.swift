@@ -39,7 +39,7 @@ class CanvasViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "分享"
+        self.title = "Other"
         self.view.backgroundColor = UIColor.whiteColor()
         
         self.firstTangramView = FirstTangramView(frame: self.view.bounds)
@@ -118,13 +118,13 @@ class CanvasViewController: UIViewController {
     }
     
     func linearIn(){
-        self.firstTangramView.frame = CGRectMake(-SCREEN_WIDTH, -SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
-        self.secondTangramView.frame = CGRectMake(0, -SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
-        self.thirdTangramView.frame = CGRectMake(-2*SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-        self.forthTangramView.frame = CGRectMake(-SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-        self.fifthTangramView.frame = CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-        self.sixthTangramView.frame = CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-        self.seventhTangramView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
+        self.firstTangramView.frame = CGRectMake(-SCREEN_WIDTH, -SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT)
+        self.secondTangramView.frame = CGRectMake(0, -SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT)
+        self.thirdTangramView.frame = CGRectMake(-2*SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+        self.forthTangramView.frame = CGRectMake(-SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+        self.fifthTangramView.frame = CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+        self.sixthTangramView.frame = CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+        self.seventhTangramView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT)
         
         UIView.animateWithDuration(2.0, animations:self.linearInAnimationMethod)
     
@@ -146,7 +146,7 @@ class CanvasViewController: UIViewController {
         self.viewIndexNumber = index
         UIView.animateWithDuration(1.0, animations: self.linearOutIndexAnimationMethod, completion:{
             finished in
-            self.linearOutIndexAnimationFinished()
+            self.linearOutIndexAnimationFinished(index)
             })
         
 
@@ -155,41 +155,59 @@ class CanvasViewController: UIViewController {
     func linearOutIndexAnimationMethod(){
         
         if self.viewIndexNumber != 1{
-            self.firstTangramView.frame = CGRectMake(-SCREEN_WIDTH, -SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
+            self.firstTangramView.frame = CGRectMake(-SCREEN_WIDTH, -SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT)
         }
         
         if self.viewIndexNumber != 2{
-            self.secondTangramView.frame = CGRectMake(0, -SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
+            self.secondTangramView.frame = CGRectMake(0, -SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT)
         }
         
         if self.viewIndexNumber != 3{
-            self.thirdTangramView.frame = CGRectMake(-2*SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+            self.thirdTangramView.frame = CGRectMake(-2*SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
         }
         
         if self.viewIndexNumber != 4{
-            self.forthTangramView.frame = CGRectMake(-SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+            self.forthTangramView.frame = CGRectMake(-SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
         }
         
         if self.viewIndexNumber != 5{
-            self.fifthTangramView.frame = CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+            self.fifthTangramView.frame = CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
         }
         
         if self.viewIndexNumber != 6{
-            self.sixthTangramView.frame = CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+            self.sixthTangramView.frame = CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
         }
         
         if self.viewIndexNumber != 7{
-            self.seventhTangramView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
+            self.seventhTangramView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT)
         }
     
     }
     
-    
-    func linearOutIndexAnimationFinished(){
-        let detailVC:DetailViewController = DetailViewController()
-        detailVC.backgroundColor = view.backgroundColor;
-        detailVC.title = "Example";
-        self.navigationController!.pushViewController(detailVC, animated: true)
+    func linearOutIndexAnimationFinished(index:NSInteger){
+        if index == 1 {
+            let penVC:PenViewController = PenViewController()
+            penVC.title = "Graffiti"
+            self.navigationController!.pushViewController(penVC, animated: true)
+        } else if index == 2 {
+            let arVC:ArticleViewController = ArticleViewController()
+            arVC.backgroundColor = view.backgroundColor
+            arVC.title = "Article"
+            self.navigationController!.pushViewController(arVC, animated: true)
+        } else if index == 3 {
+            let boVC:BoardViewController = BoardViewController()
+            boVC.title = "Board"
+            self.navigationController!.pushViewController(boVC, animated: true)
+        } else if index == 4 {
+            let amVC:AmuseViewController = AmuseViewController()
+            amVC.title = "Amuse"
+            self.navigationController!.pushViewController(amVC, animated: true)
+        } else {
+            let detailVC:DetailViewController = DetailViewController()
+            detailVC.backgroundColor = view.backgroundColor
+            detailVC.title = "Example"
+            self.navigationController!.pushViewController(detailVC, animated: true)
+        }
     
     }
     
