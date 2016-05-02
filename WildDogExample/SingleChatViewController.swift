@@ -24,7 +24,11 @@ class SingleChatViewController: UIViewController,UITableViewDelegate,UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.3)
+        self.view.backgroundColor = UIColor.whiteColor()
+        let backView = UIView(frame: self.view.frame)
+        backView.backgroundColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.3)
+        view.addSubview(backView)
+//        self.view.backgroundColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.3)
         
         mainViewInit()
         

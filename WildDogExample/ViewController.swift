@@ -28,9 +28,11 @@ class ViewController: UIViewController,
     var newMessagesOnTop = true
     var initialAdds = true
     var isAddsOn = false
-    var userMail:String = ""
-    var userNickName:String = ""
-    var userID:String = ""
+    var userMail:String!
+    var userNickName:String!
+    var imageStr : String!
+    var thumbnailImageStr : String!
+    var userID:String!
     var endCellRow = 0
     var isFirstLoad = true
     var observerHandle:WilddogHandle!
@@ -128,6 +130,7 @@ class ViewController: UIViewController,
         self.showViewController(imagePicker, sender: self)
     }
     
+    //MARK: ImagePickerControllerDelegate
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject])
     {
         self.dismissViewControllerAnimated(true, completion: nil)
@@ -135,6 +138,17 @@ class ViewController: UIViewController,
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage
         {
             print("select photo")
+            let newImageThumbnail = imageCompressForWidth(image, targetWidth: 100)
+            let data = UIImageJPEGRepresentation(newImageThumbnail, 1.0)!
+            thumbnailImageStr = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
+            let str = "image:" + thumbnailImageStr
+            
+            let myRootRef = Wilddog(url:self.WilddogURL)
+            let msgRef = myRootRef.childByAppendingPath("UserMsg")
+            msgRef.removeObserverWithHandle(self.observerHandle)
+            let Ref = msgRef.childByAutoId()
+            let msg = ["ID":self.userID,"nickname":self.userNickName,"message":str,"time":self.getTime()]
+            Ref.setValue(msg)
         }
     }
     
@@ -143,6 +157,30 @@ class ViewController: UIViewController,
         print("cancel")
         self.dismissViewControllerAnimated(true, completion: nil)
     }
+    
+    func decodingPicture(imageStr:String,origin:CGPoint,imageView:UIImageView){
+        let imageData = NSData(base64EncodedString: imageStr, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)
+        let image = UIImage(data: imageData!)
+        UIView.animateWithDuration(1.0, animations: {
+            imageView.image = image
+            imageView.frame.origin = CGPointMake(origin.x, origin.y)
+            imageView.frame.size = CGSizeMake(image!.size.width, image!.size.height)
+        })
+        
+        
+    }
+    func imageCompressForWidth(sourceImage:UIImage ,targetWidth:CGFloat) -> UIImage {
+        let imageSize = sourceImage.size
+        let width = imageSize.width
+        let height = imageSize.height
+        let targetHeight = (targetWidth / width) * height
+        UIGraphicsBeginImageContext(CGSizeMake(targetWidth, targetHeight))
+        sourceImage.drawInRect(CGRectMake(0, 0, targetWidth, targetHeight))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage
+    }
+    
     //MARK: Login & Observer
     func authUserLogin(user:String,password:String){
         let myRootRef = Wilddog(url:self.WilddogURL)
@@ -275,32 +313,54 @@ class ViewController: UIViewController,
         let message:String = self.dic[key]!["message"]!
         let nickName:String = self.dic[key]!["nickname"]!
         
+        if message.hasPrefix("image:") {
+            imageStr = (message.substringFromIndex(message.startIndex.advancedBy(6)))
+            cell.isImage = true
+        }else{
+            cell.isImage = false
+        }
+        
         if nickName == self.userNickName {
             cell.myCell()
-            cell.isMyCell = true
         }else{
             cell.otherCell()
-            cell.isMyCell = false
         }
         
-        cell.msgLabel!.text = message
-        cell.msgLabel!.sizeToFit()
-        var rect:CGRect = cell.msgLabel!.frame
-        cell.msgLabel!.frame = rect
-        
-        var rect2:CGRect = cell.msgBackView!.frame
-        rect2.size.height = rect.size.height + 20.0
-        if rect.size.width < msgWidth {
-            rect2.size.width = rect.size.width + 20.0
+        if !cell.isImage {
+            cell.msgLabel!.text = message
+            cell.msgLabel!.sizeToFit()
+            let rect:CGRect = cell.msgLabel!.frame
+            cell.msgLabel!.frame = rect
+            
+            var rect2:CGRect = cell.msgBackView!.frame
+            rect2.size.height = rect.size.height + 20.0
+            if rect.size.width < msgWidth {
+                rect2.size.width = rect.size.width + 20.0
+            }
+            cell.msgBackView!.frame = rect2
+
+            if cell.isMyCell && rect.size.width != msgWidth {
+                cell.msgLabel!.frame.origin.x = SCREEN_WIDTH - cell.avatar!.yrq_width - cell.msgLabel!.yrq_width - 20
+                cell.msgBackView!.frame.origin.x = SCREEN_WIDTH - cell.avatar!.yrq_width - cell.msgBackView!.yrq_width - 10
+            }
+            
+            UITableViewCellSelectionStyle.None
+            self.cellHeight[indexPath.row] = cell.msgBackView!.yrq_height+20.0
+        }else{
+            let imageData = NSData(base64EncodedString: imageStr, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)
+            let image = UIImage(data: imageData!)
+            cell.msgImageView!.frame.size = CGSizeMake(image!.size.width, image!.size.height)
+            cell.msgImageView!.image = image
+            if cell.isMyCell {
+                cell.msgImageView!.frame.origin.x = SCREEN_WIDTH - cell.avatar!.yrq_width - cell.msgImageView!.yrq_width - 20
+                print(cell.msgImageView!.frame)
+            }
+            
+            UITableViewCellSelectionStyle.None
+            self.cellHeight[indexPath.row] = cell.msgImageView!.yrq_height+20.0
         }
-        cell.msgBackView!.frame = rect2
-        UITableViewCellSelectionStyle.None
-        self.cellHeight[indexPath.row] = cell.msgBackView!.yrq_height+20.0
         
-        if cell.isMyCell && rect.size.width != msgWidth {
-            cell.msgLabel!.frame.origin.x = SCREEN_WIDTH - cell.avatar!.yrq_width - cell.msgLabel!.yrq_width - 20
-            cell.msgBackView!.frame.origin.x = SCREEN_WIDTH - cell.avatar!.yrq_width - cell.msgBackView!.yrq_width - 10
-        }
+        
         return cell
     }
 

@@ -79,8 +79,6 @@ class TestViewController: UIViewController, UIImagePickerControllerDelegate ,UIN
             let newImageThumbnail = imageCompressForWidth(image, targetWidth: 100)
             let data2 = UIImageJPEGRepresentation(newImageThumbnail, 1.0)!
             thumbnailImageStr = data2.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
-//            var imageData = NSData(base64EncodedString: imageStr, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)
-//            var image2 = UIImage(data: imageData!)
             thumbnailImageView = UIImageView(frame: CGRectMake(100,200,newImageThumbnail.size.width,newImageThumbnail.size.height))
             thumbnailImageView.image = newImageThumbnail
             let tap = UITapGestureRecognizer()

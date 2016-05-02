@@ -32,7 +32,7 @@ class ContactsViewController: UIViewController,UITableViewDelegate,UITableViewDa
 //        self.tableView!.separatorColor = UIColor.clearColor()
         self.view.addSubview(self.tableView!)
 
-        let rightItem = UIBarButtonItem(title:"Add",style:.Plain,target:self,action:"rightVC");
+        let rightItem = UIBarButtonItem(title:"My",style:.Plain,target:self,action:"rightVC");
         navigationItem.rightBarButtonItem = rightItem;
     }
 
