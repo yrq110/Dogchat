@@ -123,7 +123,6 @@ class ViewController: UIViewController,
     }
     
     func rightBtnClick(sender:UIButton){
-//        print("yes")
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         self.showViewController(imagePicker, sender: self)
@@ -271,28 +270,37 @@ class ViewController: UIViewController,
                 cell.contentView.subviews.last!.removeFromSuperview()
             }
         }
-        
+        var isMy:Bool
         let key = self.chatMsgArray[indexPath.row]
         let message:String = self.dic[key]!["message"]!
         let nickName:String = self.dic[key]!["nickname"]!
         
         if nickName == self.userNickName {
             cell.myCell()
+            isMy = true
         }else{
             cell.otherCell()
+            isMy = false
         }
         
         cell.msgLabel!.text = message
         cell.msgLabel!.sizeToFit()
         var rect:CGRect = cell.msgLabel!.frame
-        rect.size.width = msgWidth
         cell.msgLabel!.frame = rect
-        
+        print("width is \(cell.msgLabel!.frame.width)")
         var rect2:CGRect = cell.msgBackView!.frame
         rect2.size.height = rect.size.height + 20.0
+        if rect.size.width < msgWidth {
+            rect2.size.width = rect.size.width + 20.0
+        }
         cell.msgBackView!.frame = rect2
         UITableViewCellSelectionStyle.None
         self.cellHeight[indexPath.row] = cell.msgBackView!.yrq_height+20.0
+        
+        if isMy && rect.size.width != msgWidth {
+            cell.msgLabel!.frame.origin.x = SCREEN_WIDTH - cell.avatar!.yrq_width - cell.msgLabel!.yrq_width - 20
+            cell.msgBackView!.frame.origin.x = SCREEN_WIDTH - cell.avatar!.yrq_width - cell.msgBackView!.yrq_width - 10
+        }
         return cell
     }
 
