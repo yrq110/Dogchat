@@ -186,21 +186,31 @@ class SingleChatViewController: UIViewController,UITableViewDelegate,UITableView
         
         if nickName == self.userNickname {
             cell.myCell()
+            cell.isMyCell = true
         }else{
             cell.otherCell()
+            cell.isMyCell = false
         }
         
         cell.msgLabel!.text = message
         cell.msgLabel!.sizeToFit()
         var rect:CGRect = cell.msgLabel!.frame
-        rect.size.width = msgWidth
+//        rect.size.width = msgWidth
         cell.msgLabel!.frame = rect
         
         var rect2:CGRect = cell.msgBackView!.frame
         rect2.size.height = rect.size.height + 20.0
+        if rect.size.width < msgWidth {
+            rect2.size.width = rect.size.width + 20.0
+        }
         cell.msgBackView!.frame = rect2
-        
+        UITableViewCellSelectionStyle.None
         self.cellHeight[indexPath.row] = cell.msgBackView!.yrq_height+10.0
+        
+        if cell.isMyCell && rect.size.width != msgWidth {
+            cell.msgLabel!.frame.origin.x = SCREEN_WIDTH - cell.avatar!.yrq_width - cell.msgLabel!.yrq_width - 20
+            cell.msgBackView!.frame.origin.x = SCREEN_WIDTH - cell.avatar!.yrq_width - cell.msgBackView!.yrq_width - 10
+        }
         return cell
     }
     

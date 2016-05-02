@@ -15,9 +15,11 @@ class SingleChatMessageCell: UITableViewCell {
     var msgLabel:UILabel?
     var msgBackView:UIView?
     var avatar:UIImageView?
+    var msgImageView:UIImageView?
     var msgTap:UITapGestureRecognizer!
     var msgPress:UILongPressGestureRecognizer!
     let move = MoveClass()
+    var isMyCell = true
     let shallowGreen = UIColor.init(red: 0, green: 1, blue: 0, alpha: 0.3)
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -26,6 +28,7 @@ class SingleChatMessageCell: UITableViewCell {
     }
     
     func myCell(){
+        isMyCell = true
         avatar = UIImageView(frame: CGRectMake(SCREEN_WIDTH-45, 5, 40, 40))
         avatar!.image = UIImage(named: "moon")
         contentView.addSubview(avatar!)
@@ -46,6 +49,7 @@ class SingleChatMessageCell: UITableViewCell {
     }
     
     func otherCell(){
+        isMyCell = false
         avatar = UIImageView(frame: CGRectMake(5, 5, 40, 40))
         avatar!.image = UIImage(named: "sun")
         contentView.addSubview(avatar!)
@@ -73,9 +77,11 @@ class SingleChatMessageCell: UITableViewCell {
     
     func gesture(press:UILongPressGestureRecognizer){
         if press.state == UIGestureRecognizerState.Ended{
+            self.msgBackView!.backgroundColor = isMyCell ? UIColor.whiteColor() : shallowGreen
             return
         }else if press.state == UIGestureRecognizerState.Began{
             print("I pressed")
+            self.msgBackView!.backgroundColor = UIColor.init(red: 1, green: 1, blue: 1, alpha: 0.5)
         }
     
     }
