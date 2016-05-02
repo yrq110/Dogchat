@@ -12,7 +12,9 @@ class ArticleViewController: UIViewController, LazyFadeInViewDelegate {
 
     var backgroundColor:UIColor!
     var lazyFadeInView: LazyFadeInView?
-    let strayBirds = " Stray birds of summer come to my window to sing and fly away. And yellow leaves of autumn, which have no songs, flutter and fall there with a sign. O Troupe of little vagrants of the world, leave your footprints in my words."
+//    let strayBirds = " Stray birds of summer come to my window to sing and fly away. And yellow leaves of autumn, which have no songs, flutter and fall there with a sign. O Troupe of little vagrants of the world, leave your footprints in my words."
+    
+    let strayBirds = " 大年你要对我有信心"
     
     override func viewDidLoad() {
         super.viewDidLoad()

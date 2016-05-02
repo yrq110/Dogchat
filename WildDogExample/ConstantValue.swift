@@ -11,6 +11,7 @@ import Foundation
 let SCREEN_WIDTH = UIScreen.mainScreen().bounds.size.width
 let SCREEN_HEIGHT = UIScreen.mainScreen().bounds.size.height
 let msgWidth:CGFloat = 180.0
+let WilddogURL = "https://yrq.wilddogio.com"
 
 class MoveClass {
 
@@ -27,5 +28,17 @@ class MoveClass {
     func moveBottomY(view:UIView,offset:CGFloat) -> CGFloat{
         
         return view.yrq_y+view.yrq_height+offset
+    }
+}
+class Time {
+    
+    func getTime() -> String {
+        let date = NSDate()
+        let timeFormatter = NSDateFormatter()
+        timeFormatter.dateFormat = "yyy-MM-dd.HH:mm:ss"
+        let strNowTime = timeFormatter.stringFromDate(date) as String
+        //        print("time is \(strNowTime)")
+        //        let strNowTime = "2016-06-08.02:18:20"
+        return strNowTime
     }
 }

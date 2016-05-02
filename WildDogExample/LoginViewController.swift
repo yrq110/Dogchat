@@ -11,8 +11,6 @@ import Wilddog
 
 class LoginViewController: UIViewController,UITextFieldDelegate {
 
-    let SCREEN_WIDTH = UIScreen.mainScreen().bounds.size.width
-    let SCREEN_HEIGHT = UIScreen.mainScreen().bounds.size.height
     let Title_Width:CGFloat = 200
     let InputView_Height:CGFloat = 40
     var titleLabel:UILabel!

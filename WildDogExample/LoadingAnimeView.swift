@@ -16,7 +16,7 @@ class LoadingAnimeView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+        self.frame.size = CGSizeMake(105, 130)
         self.playAnimation()
     }
     

@@ -10,9 +10,7 @@ import UIKit
 import Wilddog
 
 class ContactsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
-    
-    let SCREEN_WIDTH = UIScreen.mainScreen().bounds.size.width
-    let SCREEN_HEIGHT = UIScreen.mainScreen().bounds.size.height
+
     let WilddogURL = "https://yrq.wilddogio.com"
     var cellHeight = Dictionary<Int,CGFloat>()
     var tableView:UITableView?
@@ -20,6 +18,8 @@ class ContactsViewController: UIViewController,UITableViewDelegate,UITableViewDa
     var nicknameArray = Array<String>()
     var mailArray = Array<String>()
     var selectedPerson:String!
+    var userID = ""
+    var userNickname = ""
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -75,35 +75,38 @@ class ContactsViewController: UIViewController,UITableViewDelegate,UITableViewDa
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-//        let singleView = SingleChatViewController()
-//        singleView.getName(self.userArray[indexPath.row])
-//        self.navigationController!.pushViewController(singleView, animated: true)
-        let image = UIImage(named: "sun")
-        let person = PersonDetailView(frame: self.view.frame)
-        person.setMessage(image!, nickname_: self.userArray[indexPath.row], name_: "Dong", position_: self.mailArray[indexPath.row], department_: self.mailArray[indexPath.row])
-        selectedPerson = self.userArray[indexPath.row]
-        person.chatTap.addTarget(self, action: "beginChat")
-        view.addSubview(person)
+        let singleView = SingleChatViewController()
+        singleView.getName(self.userArray[indexPath.row],id: self.userID,myName: self.userNickname)
+        self.navigationController!.pushViewController(singleView, animated: true)
+//        let image = UIImage(named: "sun")
+//        let person = PersonDetailView(frame: self.view.frame)
+//        person.setMessage(image!, nickname_: self.userArray[indexPath.row], name_: "Dong", position_: self.mailArray[indexPath.row], department_: self.mailArray[indexPath.row])
+//        selectedPerson = self.userArray[indexPath.row]
+//        person.chatTap.addTarget(self, action: "beginChat")
+//        view.addSubview(person)
     }
     
     func beginChat(){
-//        print("222")
+        
         let singleView = SingleChatViewController()
-        singleView.getName(selectedPerson)
+        singleView.getName(selectedPerson,id: self.userID,myName: self.userNickname)
         self.navigationController!.pushViewController(singleView, animated: true)
     }
     
     // MARK: - TransmitAccountMsg
-    func transmitAccountMsg(mail:String){
+    func transmitAccountMsg(mail:String,id:String,nickname:String){
         print("Enter Contacts View")
+        self.userID = id
+        self.userNickname = nickname
         self.userArray = Array<String>()
         let myRootRef = Wilddog(url:self.WilddogURL)
         let accountRef = myRootRef.childByAppendingPath("UserAccount")
         accountRef.queryOrderedByChild("mail").observeSingleEventOfType(.Value, withBlock: { snapshot in
-//            print(snapshot.value)
             for i in (snapshot.value as! Dictionary<String,Dictionary<String,String>>) {
-                self.userArray.append(i.1["nickname"]!)
-                self.mailArray.append(i.1["mail"]!)
+                if i.1["mail"]! != mail {
+                    self.userArray.append(i.1["nickname"]!)
+                    self.mailArray.append(i.1["mail"]!)
+                }
             }
 //                let nickname = snapshot.value[i]["nickname"] as! String
 //                let mail = snapshot.value[i]!["mail"]! as! String

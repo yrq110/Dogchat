@@ -10,9 +10,6 @@ import Foundation
 
 class TupleToAnime : UIView {
     
-    let SCREEN_WIDTH = UIScreen.mainScreen().bounds.size.width
-    let SCREEN_HEIGHT = UIScreen.mainScreen().bounds.size.height
-    
     var dayColorArray:Array<UIColor>!
     var nightColorArray:Array<UIColor>!
     

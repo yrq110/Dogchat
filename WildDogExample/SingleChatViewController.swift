@@ -7,13 +7,20 @@
 //
 
 import UIKit
-
+import Wilddog
 class SingleChatViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate {
 
+    let myRootRef = Wilddog(url:WilddogURL)
+    var msgPath:String!
     var tableView:UITableView?
     var cellHeight = Dictionary<Int,CGFloat>()
     var bottomView:InputView!
     var testText = Array<String>()
+    var userID = ""
+    var userNickname = ""
+    var initLoad = true
+    var chatMsgArray = Array<String>()
+    var dic = Dictionary<String,Dictionary<String,String>>()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -21,13 +28,16 @@ class SingleChatViewController: UIViewController,UITableViewDelegate,UITableView
         
         mainViewInit()
         
-        testText = ["你好","你好","今晚有空吗，商量个事","好的，我8点有空，来601吧","好的"]
     }
     
-    func getName(name:String){
+    func getName(name:String,id:String,myName:String){
         
         self.title = name
-    
+        self.userID = id
+        self.userNickname = myName
+        initMessage()
+//        refreshMessage()
+//        self.tableView!.reloadData()
     }
     
     func mainViewInit(){
@@ -44,6 +54,106 @@ class SingleChatViewController: UIViewController,UITableViewDelegate,UITableView
         self.bottomView.textField!.delegate = self
         self.bottomView.sendBtn!.addTarget(self, action: "sendAction:", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(self.bottomView)
+    
+    }
+    
+    func initMessage(){
+//        let myRootRef = Wilddog(url:WilddogURL)
+        let userRef = myRootRef.childByAppendingPath("PrivateMsg"+"/"+self.userNickname+"/"+self.title!)
+        userRef.observeSingleEventOfType(.Value, withBlock: { snapshot in
+            if snapshot.value != nil{
+                print("Get msg!")
+//                self.initLoad = false
+                self.msgPath = "PrivateMsg"+"/"+self.userNickname+"/"+self.title!
+                self.refreshMessage()
+
+                let count = snapshot.value.count
+                var i = 0
+                userRef.queryOrderedByKey().observeEventType(.ChildAdded, withBlock: { snapshot in
+                    self.dic[snapshot.key] = snapshot.value as? Dictionary
+                    self.chatMsgArray.append(snapshot.key)
+                    i++
+                    if i == count {
+                        userRef.removeAllObservers()
+                        print("removed")
+                        self.tableView!.reloadData()
+                        self.initLoad = false
+//                        self.refreshMessage()
+                    }
+                })
+            }else {
+                self.initMessageAgain()
+            }
+        })
+        
+       
+    }
+    
+    func initMessageAgain(){
+
+        let userRef = myRootRef.childByAppendingPath("PrivateMsg"+"/"+self.title!+"/"+self.userNickname)
+        userRef.observeSingleEventOfType(.Value, withBlock: { snapshot in
+            if snapshot.value != nil{
+                print("Get msg!")
+//                self.initLoad = false
+                self.msgPath = "PrivateMsg"+"/"+self.title!+"/"+self.userNickname
+                self.refreshMessage()
+                
+                let count = snapshot.value.count
+                var i = 0
+                userRef.queryOrderedByKey().observeEventType(.ChildAdded, withBlock: { snapshot in
+                    self.dic[snapshot.key] = snapshot.value as? Dictionary
+                    self.chatMsgArray.append(snapshot.key)
+                    i++
+                    if i == count {
+                        userRef.removeAllObservers()
+                        print("removed")
+                        self.tableView!.reloadData()
+                        self.initLoad = false
+                        
+//                        self.refreshMessage()
+                    }
+                })
+            }else {
+                print("nil")
+            }
+        })
+    }
+    
+    
+    func refreshMessage(){
+//        if self.msgPath == nil {
+//            print("nil msgPath")
+//        } else {
+        let userRef = myRootRef.childByAppendingPath(self.msgPath)
+        userRef.observeEventType(.ChildAdded, withBlock: { snapshot in
+            if !self.initLoad {
+                print("childadded")
+                self.dic[snapshot.key] = snapshot.value as? Dictionary
+                self.chatMsgArray.append(snapshot.key)
+                self.tableView!.reloadData()
+            }
+            
+        })
+//        }
+    }
+    
+    func sendAction(sender:UIButton){
+        let str:String = self.bottomView.textField!.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        if !self.bottomView.textField!.text!.isEmpty && !str.isEmpty {
+            //            print("\(!self.bottomView.textField!.text!.isEmpty)  \(self.bottomView.textField!.text!)")
+            let myRootRef = Wilddog(url:WilddogURL)
+            let msgRef = myRootRef.childByAppendingPath(self.msgPath)
+            let Ref = msgRef.childByAutoId()
+            let time = Time()
+            let msg = ["ID":self.userID,"nickname":self.userNickname,"message":self.bottomView.textField!.text!,"time":time.getTime()]
+            Ref.setValue(msg)
+            print(msg)
+        }else{
+            //            print("empty dude")
+        }
+        self.bottomView.textField!.resignFirstResponder()
+    
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -51,7 +161,10 @@ class SingleChatViewController: UIViewController,UITableViewDelegate,UITableView
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return testText.count
+//        if self.chatMsgArray != nil {
+        return self.chatMsgArray.count
+//        }
+//        return 1
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath)
@@ -67,13 +180,17 @@ class SingleChatViewController: UIViewController,UITableViewDelegate,UITableView
             }
         }
         
-        if indexPath.row % 2 == 0 {
+        let key = self.chatMsgArray[indexPath.row]
+        let message:String = self.dic[key]!["message"]!
+        let nickName:String = self.dic[key]!["nickname"]!
+        
+        if nickName == self.userNickname {
             cell.myCell()
-        } else {
+        }else{
             cell.otherCell()
         }
         
-        cell.msgLabel!.text = self.testText[indexPath.row]
+        cell.msgLabel!.text = message
         cell.msgLabel!.sizeToFit()
         var rect:CGRect = cell.msgLabel!.frame
         rect.size.width = msgWidth

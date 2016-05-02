@@ -10,8 +10,6 @@ import UIKit
 
 class AmuseViewController: UIViewController,UIScrollViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate {
 
-    let SCREEN_WIDTH = UIScreen.mainScreen().bounds.size.width
-    let SCREEN_HEIGHT = UIScreen.mainScreen().bounds.size.height
     var imageView:UIImageView!
     var imageView2:UIImageView!
     var currentImage:UIImage!
@@ -91,7 +89,6 @@ class AmuseViewController: UIViewController,UIScrollViewDelegate,UINavigationCon
             SDImageCache.sharedImageCache().clearDisk()
             print(SDImageCache.sharedImageCache().getSize())
         })
-    
     
     }
     

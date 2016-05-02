@@ -19,6 +19,7 @@
 		7A49CB731CA6E84700BFD13E /* Wilddog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A49CB721CA6E84700BFD13E /* Wilddog.framework */; };
 		7A49CB751CA6E86A00BFD13E /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A49CB741CA6E86A00BFD13E /* JavaScriptCore.framework */; };
 		7A49CB771CA6E87100BFD13E /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A49CB761CA6E87100BFD13E /* libsqlite3.tbd */; };
+		7A54AF091CCCC8C000B2714F /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A54AF081CCCC8C000B2714F /* DetailViewController.swift */; };
 		7A582F241CB4B9BD001CFE14 /* ParseDateStringClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A582F231CB4B9BD001CFE14 /* ParseDateStringClass.swift */; };
 		7A582F261CB4BAB0001CFE14 /* ResponseToAnimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A582F251CB4BAB0001CFE14 /* ResponseToAnimeView.swift */; };
 		7A582F2C1CB4EBE3001CFE14 /* MoonArcLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A582F2B1CB4EBE3001CFE14 /* MoonArcLayer.swift */; };
@@ -77,16 +78,13 @@
 		7A7ECD1F1CAC10C40065FD5D /* SixthTangramView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A7ECD151CAC10C40065FD5D /* SixthTangramView.m */; };
 		7A7ECD201CAC10C40065FD5D /* TangramBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A7ECD171CAC10C40065FD5D /* TangramBaseView.m */; };
 		7A7ECD211CAC10C40065FD5D /* ThirdTangramView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A7ECD191CAC10C40065FD5D /* ThirdTangramView.m */; };
-		7A7ECD251CAC18BD0065FD5D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A7ECD241CAC18BD0065FD5D /* DetailViewController.swift */; };
 		7A7ECD2A1CAC32320065FD5D /* AFBrushBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A7ECD291CAC32320065FD5D /* AFBrushBoard.swift */; };
 		7A7ECD2E1CAC32880065FD5D /* PenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A7ECD2D1CAC32880065FD5D /* PenViewController.swift */; };
-		7A846B3B1CA97B8700516A45 /* MessageViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A846B3A1CA97B8700516A45 /* MessageViewCell.swift */; };
 		7A9D0A261CB1018B002E3523 /* AnimeTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9D0A251CB1018B002E3523 /* AnimeTestViewController.swift */; };
 		7AA04CB81CAE48FD004189AE /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA04CB71CAE48FD004189AE /* LoginViewController.swift */; };
 		7AA4C04E1CAF48820098C06E /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA4C04D1CAF48820098C06E /* TestViewController.swift */; };
 		7AB1D0111CAEA8D500D105D7 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AB1D0101CAEA8D500D105D7 /* RegisterView.swift */; };
 		7AEB2ED01CB2242C0081FD31 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AEB2ECF1CB2242C0081FD31 /* UIView+Extension.swift */; };
-		7AEC4E2F1CAA0BDF00074E61 /* MyMsgViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AEC4E2E1CAA0BDF00074E61 /* MyMsgViewCell.swift */; };
 		7AEC4E311CAA438700074E61 /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AEC4E301CAA438700074E61 /* InputView.swift */; };
 /* End PBXBuildFile section */
 
@@ -117,6 +115,7 @@
 		7A49CB721CA6E84700BFD13E /* Wilddog.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Wilddog.framework; sourceTree = "<group>"; };
 		7A49CB741CA6E86A00BFD13E /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		7A49CB761CA6E87100BFD13E /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		7A54AF081CCCC8C000B2714F /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		7A582F231CB4B9BD001CFE14 /* ParseDateStringClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseDateStringClass.swift; sourceTree = "<group>"; };
 		7A582F251CB4BAB0001CFE14 /* ResponseToAnimeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseToAnimeView.swift; sourceTree = "<group>"; };
 		7A582F2B1CB4EBE3001CFE14 /* MoonArcLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoonArcLayer.swift; sourceTree = "<group>"; };
@@ -201,16 +200,13 @@
 		7A7ECD171CAC10C40065FD5D /* TangramBaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TangramBaseView.m; sourceTree = "<group>"; };
 		7A7ECD181CAC10C40065FD5D /* ThirdTangramView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdTangramView.h; sourceTree = "<group>"; };
 		7A7ECD191CAC10C40065FD5D /* ThirdTangramView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThirdTangramView.m; sourceTree = "<group>"; };
-		7A7ECD241CAC18BD0065FD5D /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetailViewController.swift; path = ../DetailViewController.swift; sourceTree = "<group>"; };
 		7A7ECD291CAC32320065FD5D /* AFBrushBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AFBrushBoard.swift; sourceTree = "<group>"; };
 		7A7ECD2D1CAC32880065FD5D /* PenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PenViewController.swift; sourceTree = "<group>"; };
-		7A846B3A1CA97B8700516A45 /* MessageViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageViewCell.swift; sourceTree = "<group>"; };
 		7A9D0A251CB1018B002E3523 /* AnimeTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimeTestViewController.swift; sourceTree = "<group>"; };
 		7AA04CB71CAE48FD004189AE /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		7AA4C04D1CAF48820098C06E /* TestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		7AB1D0101CAEA8D500D105D7 /* RegisterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		7AEB2ECF1CB2242C0081FD31 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
-		7AEC4E2E1CAA0BDF00074E61 /* MyMsgViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyMsgViewCell.swift; sourceTree = "<group>"; };
 		7AEC4E301CAA438700074E61 /* InputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -435,9 +431,9 @@
 		7A7ECD261CAC30580065FD5D /* CanvasViewGroup */ = {
 			isa = PBXGroup;
 			children = (
+				7A54AF081CCCC8C000B2714F /* DetailViewController.swift */,
 				7A7ECCEB1CAB98470065FD5D /* CanvasViewController.swift */,
 				7A7ECD2D1CAC32880065FD5D /* PenViewController.swift */,
-				7A7ECD241CAC18BD0065FD5D /* DetailViewController.swift */,
 				7A63F66A1CACA6E20002C646 /* ArticleViewController.swift */,
 				7A63F67C1CACB5A20002C646 /* BoardViewController.swift */,
 				7A7E22E51CB7ECC000BF2048 /* AmuseViewController.swift */,
@@ -452,8 +448,6 @@
 				7AA04CB71CAE48FD004189AE /* LoginViewController.swift */,
 				7AB1D0101CAEA8D500D105D7 /* RegisterView.swift */,
 				7A49CB511CA6E81300BFD13E /* ViewController.swift */,
-				7A846B3A1CA97B8700516A45 /* MessageViewCell.swift */,
-				7AEC4E2E1CAA0BDF00074E61 /* MyMsgViewCell.swift */,
 				7AEC4E301CAA438700074E61 /* InputView.swift */,
 			);
 			name = MainViewGroup;
@@ -590,12 +584,10 @@
 				7A7E23101CB7F54900BF2048 /* SDWebImageManager.m in Sources */,
 				7A9D0A261CB1018B002E3523 /* AnimeTestViewController.swift in Sources */,
 				7AA4C04E1CAF48820098C06E /* TestViewController.swift in Sources */,
-				7A846B3B1CA97B8700516A45 /* MessageViewCell.swift in Sources */,
 				7A63F6751CACB4200002C646 /* ButtonBoobView.swift in Sources */,
 				7A63F6771CACB4200002C646 /* HolderView.swift in Sources */,
 				7A7E23151CB7F54900BF2048 /* UIImage+WebP.m in Sources */,
 				7A63F67D1CACB5A30002C646 /* BoardViewController.swift in Sources */,
-				7A7ECD251CAC18BD0065FD5D /* DetailViewController.swift in Sources */,
 				7A582F241CB4B9BD001CFE14 /* ParseDateStringClass.swift in Sources */,
 				7A7ECD1E1CAC10C40065FD5D /* SeventhTangramView.m in Sources */,
 				7A6C7CA31CB9FAD6008EDEC1 /* NSString+Encrypt.swift in Sources */,
@@ -606,6 +598,7 @@
 				7A49CB521CA6E81300BFD13E /* ViewController.swift in Sources */,
 				7A7ECD1A1CAC10C40065FD5D /* FifthTangramView.m in Sources */,
 				7A63F6661CACA67B0002C646 /* LazyFadeIn.swift in Sources */,
+				7A54AF091CCCC8C000B2714F /* DetailViewController.swift in Sources */,
 				7A49CB501CA6E81300BFD13E /* AppDelegate.swift in Sources */,
 				7AA04CB81CAE48FD004189AE /* LoginViewController.swift in Sources */,
 				7A7ECD1C1CAC10C40065FD5D /* ForthTangramView.m in Sources */,
@@ -625,7 +618,6 @@
 				7A7E230D1CB7F54900BF2048 /* SDWebImageDecoder.m in Sources */,
 				7A7E22E41CB770FE00BF2048 /* LoadingAnimeView.swift in Sources */,
 				7A63F6741CACB4200002C646 /* ArcLayer.swift in Sources */,
-				7AEC4E2F1CAA0BDF00074E61 /* MyMsgViewCell.swift in Sources */,
 				7A7ECD201CAC10C40065FD5D /* TangramBaseView.m in Sources */,
 				7A7E23161CB7F54900BF2048 /* UIImageView+HighlightedWebCache.m in Sources */,
 				7A7ECCEE1CAB9A220065FD5D /* ContactsViewController.swift in Sources */,

@@ -9,9 +9,6 @@
 import UIKit
 class CanvasViewController: UIViewController {
     
-    let SCREEN_WIDTH = UIScreen.mainScreen().bounds.size.width
-    let SCREEN_HEIGHT = UIScreen.mainScreen().bounds.size.height
-    
     var viewIndexNumber:NSInteger = 0
     var firstTangramView:FirstTangramView = FirstTangramView()
     var secondTangramView:SecondTangramView = SecondTangramView()

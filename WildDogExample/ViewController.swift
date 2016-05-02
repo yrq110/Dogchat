@@ -9,13 +9,17 @@
 import UIKit
 import Wilddog
 
-class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate {
+class ViewController: UIViewController,
+                    UITableViewDelegate,
+                    UITableViewDataSource,
+                    UITextFieldDelegate,
+                    UIImagePickerControllerDelegate,
+                    UINavigationControllerDelegate {
     
     //MARK: - let and var
     let selloColor = UIColor.init(white: 1.0, alpha: 0.7)
     let WilddogURL = "https://yrq.wilddogio.com"
     let colorArray = [UIColor.blueColor(),UIColor.greenColor(),UIColor.yellowColor(),UIColor.redColor(),UIColor.purpleColor()]
-    
     var bottomView:InputView!
     var tableView:UITableView?
     var cellHeight = Dictionary<Int,CGFloat>()
@@ -33,7 +37,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     
     var timeAnime = TupleToAnime()
     let parse = Parse()
-    
+    var loadingView = LoadingAnimeView()
     //MARK: - ViewLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +47,10 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         
         print("height:\(SCREEN_HEIGHT),width:\(SCREEN_WIDTH)")
         
-//        self.view.addSubview(timeAnime)
+        self.view.addSubview(timeAnime)
+        
+        loadingView.frame.origin = CGPointMake(SCREEN_WIDTH/2-loadingView.yrq_width/2, SCREEN_HEIGHT/2-loadingView.yrq_height/2)
+        self.view.addSubview(loadingView)
         
         self.MainViewInit()
         
@@ -51,7 +58,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         self.authUserLogin(self.userMail, password: "444")
         
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector:Selector("keyboardWillChange:"), name: UIKeyboardWillChangeFrameNotification, object: nil)
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector:Selector("keyboardWillChange:"), name: UIKeyboardWillChangeFrameNotification, object: nil)
         
         let leftItem = UIBarButtonItem(title:"Contacts",style:.Plain,target:self,action:"leftVC");
         self.navigationItem.leftBarButtonItem = leftItem;
@@ -65,7 +72,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     var transContacts = 0
     func leftVC() {
         let con_vc = ContactsViewController()
-        con_vc.transmitAccountMsg(self.userMail)
+        con_vc.transmitAccountMsg(self.userMail,id:self.userID,nickname:self.userNickName)
         self.navigationController!.pushViewController(con_vc,animated:true);
     }
     
@@ -75,25 +82,25 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
     
     //MARK: KeyBoardChange
-    func keyboardWillChange(notif:NSNotification){
-        let userInfo:NSDictionary = notif.userInfo!;
-        let keyBoardInfo: AnyObject? = userInfo.objectForKey(UIKeyboardFrameBeginUserInfoKey);
-        let beginY = keyBoardInfo?.CGRectValue.origin.y;
-        let keyBoardInfo2: AnyObject? = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey);
-        let endY = keyBoardInfo2?.CGRectValue.origin.y;
-        var rect:CGRect = self.bottomView.frame
-//        var tableRect = self.tableView!.frame
-        if (beginY! - endY!)>0 {
-            rect.origin.y -= (beginY! - endY!)
-//            tableRect.size.height -= (beginY! - endY!)
-        }else{
-            rect.origin.y += (endY! - beginY!)
-//            tableRect.size.height += (endY! - beginY!)
-        }
-        self.bottomView.frame = rect
-//        self.tableView!.frame = tableRect
-//        self.tableView!.scrollToRowAtIndexPath(NSIndexPath(forRow: self.chatMsgArray.count-1, inSection: 0), atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
-    }
+//    func keyboardWillChange(notif:NSNotification){
+//        let userInfo:NSDictionary = notif.userInfo!;
+//        let keyBoardInfo: AnyObject? = userInfo.objectForKey(UIKeyboardFrameBeginUserInfoKey);
+//        let beginY = keyBoardInfo?.CGRectValue.origin.y;
+//        let keyBoardInfo2: AnyObject? = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey);
+//        let endY = keyBoardInfo2?.CGRectValue.origin.y;
+//        var rect:CGRect = self.bottomView.frame
+////        var tableRect = self.tableView!.frame
+//        if (beginY! - endY!)>0 {
+//            rect.origin.y -= (beginY! - endY!)
+////            tableRect.size.height -= (beginY! - endY!)
+//        }else{
+//            rect.origin.y += (endY! - beginY!)
+////            tableRect.size.height += (endY! - beginY!)
+//        }
+//        self.bottomView.frame = rect
+////        self.tableView!.frame = tableRect
+////        self.tableView!.scrollToRowAtIndexPath(NSIndexPath(forRow: self.chatMsgArray.count-1, inSection: 0), atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+//    }
     
     func MainViewInit(){
         
@@ -108,12 +115,35 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         self.view.addSubview(self.tableView!)
         
         self.bottomView = InputView(frame:CGRectMake(0,0.925*SCREEN_HEIGHT,SCREEN_WIDTH,0.075*SCREEN_HEIGHT))
-        self.bottomView.textField!.delegate = self
-        self.bottomView.sendBtn!.addTarget(self, action: "sendAction:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.bottomView.textField.delegate = self
+        self.bottomView.sendBtn.addTarget(self, action: "sendAction:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.bottomView.rightBtn.addTarget(self, action: "rightBtnClick:", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(self.bottomView)
         
     }
     
+    func rightBtnClick(sender:UIButton){
+//        print("yes")
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        self.showViewController(imagePicker, sender: self)
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject])
+    {
+        self.dismissViewControllerAnimated(true, completion: nil)
+        
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        {
+            print("select photo")
+        }
+    }
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController)
+    {
+        print("cancel")
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
     //MARK: Login & Observer
     func authUserLogin(user:String,password:String){
         let myRootRef = Wilddog(url:self.WilddogURL)
@@ -145,15 +175,19 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             var i = 0
             self.observerHandle = userRef.queryOrderedByKey().observeEventType(.ChildAdded, withBlock: { snapshot in
                 if snapshot.value != nil{
-                    print("observe1")
+//                    print("observeInitAdd")
                     self.dic[snapshot.key] = snapshot.value as? Dictionary
+//                    print(self.dic[snapshot.key]!["time"]!)
+//                    print(self.parse.parseStr(self.dic[snapshot.key]!["time"]!))
                     self.chatMsgArray.append(snapshot.key)
                     i++
                     if i == count {
+                        self.loadingView.hidden = true
+                        self.timeAnime.tupleToAnime(self.parse.parseStr(self.dic[snapshot.key]!["time"]!))
                         userRef.removeAllObservers()
-                        print("removed")
-                        self.tableView!.reloadData()
+//                        print("removed")
                         self.initialAdds = false
+                        self.tableView!.reloadData()
                     }
                 }
             })
@@ -169,8 +203,12 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
                 print("childadded")
                 self.dic[snapshot.key] = snapshot.value as? Dictionary
                 self.chatMsgArray.append(snapshot.key)
+//                self.timeAnime.tupleToAnime(self.parse.parseStr(self.dic[snapshot.key]!["time"]!))
+//                print(self.dic[snapshot.key]!["time"]!)
+//                print(self.parse.parseStr(self.dic[snapshot.key]!["time"]!))
+                
                 self.tableView!.reloadData()
-                self.tableView!.scrollToRowAtIndexPath(NSIndexPath(forRow: self.chatMsgArray.count-1, inSection: 0), atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+//                self.tableView!.scrollToRowAtIndexPath(NSIndexPath(forRow: self.chatMsgArray.count-1, inSection: 0), atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
             }
             
         })
@@ -181,10 +219,9 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let accountRef = myRootRef.childByAppendingPath("UserAccount")
         accountRef.queryOrderedByChild("mail").observeEventType(.Value, withBlock: { snapshot in
             for var i=0 ; i<Int(snapshot.childrenCount) ; ++i {
-                //                print("nickname:\(String(snapshot.value[i]!["nickname"]!))")
                 if mail == (snapshot.value[i]!["mail"] as! String){
                     self.userNickName = snapshot.value[i]["nickname"] as! String
-                    print("get it:\(snapshot.value[i]["nickname"] as! String)")
+//                    print("get it:\(snapshot.value[i]["nickname"] as! String)")
                     self.addEvent()
                 }
             }
@@ -309,10 +346,6 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
 
     func sendAction(sender:UIButton){
-//        if isAddsOn == false{
-//            self.addEvent()
-//            isAddsOn = true
-//        }
         
         let str:String = self.bottomView.textField!.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         if !self.bottomView.textField!.text!.isEmpty && !str.isEmpty {
