@@ -18,7 +18,6 @@ class ViewController: UIViewController,
     
     //MARK: - let and var
     let selloColor = UIColor.init(white: 1.0, alpha: 0.7)
-    let WilddogURL = "https://yrq.wilddogio.com"
     let colorArray = [UIColor.blueColor(),UIColor.greenColor(),UIColor.yellowColor(),UIColor.redColor(),UIColor.purpleColor()]
     var bottomView:InputView!
     var tableView:UITableView?
@@ -143,7 +142,7 @@ class ViewController: UIViewController,
             thumbnailImageStr = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
             let str = "image:" + thumbnailImageStr
             
-            let myRootRef = Wilddog(url:self.WilddogURL)
+            let myRootRef = Wilddog(url:WilddogURL)
             let msgRef = myRootRef.childByAppendingPath("UserMsg")
             msgRef.removeObserverWithHandle(self.observerHandle)
             let Ref = msgRef.childByAutoId()
@@ -183,7 +182,7 @@ class ViewController: UIViewController,
     
     //MARK: Login & Observer
     func authUserLogin(user:String,password:String){
-        let myRootRef = Wilddog(url:self.WilddogURL)
+        let myRootRef = Wilddog(url:WilddogURL)
         myRootRef.authUser(user, password: password) {
             error, authData in
             if error != nil {
@@ -205,7 +204,7 @@ class ViewController: UIViewController,
     }
 
     func msgInitialAdd(){
-        let myRootRef = Wilddog(url:self.WilddogURL)
+        let myRootRef = Wilddog(url:WilddogURL)
         let userRef = myRootRef.childByAppendingPath("UserMsg")
         userRef.observeSingleEventOfType(.Value, withBlock: { snapshot in
             let count = snapshot.value.count
@@ -232,7 +231,7 @@ class ViewController: UIViewController,
     }
     
     func addEvent() {
-        let myRootRef = Wilddog(url:self.WilddogURL)
+        let myRootRef = Wilddog(url:WilddogURL)
         let userRef = myRootRef.childByAppendingPath("UserMsg")
         
         userRef.observeEventType(.ChildAdded, withBlock: { snapshot in
@@ -246,13 +245,41 @@ class ViewController: UIViewController,
                 
                 self.tableView!.reloadData()
 //                self.tableView!.scrollToRowAtIndexPath(NSIndexPath(forRow: self.chatMsgArray.count-1, inSection: 0), atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+                if UIApplication.sharedApplication().applicationState == UIApplicationState.Background {
+//                    let message:String = self.dic[snapshot.key]!["message"]!
+//                    let nickName:String = self.dic[snapshot.key]!["nickname"]!
+                    
+                    self.newMsgNotifi(self.dic[snapshot.key]!["nickname"], body: self.dic[snapshot.key]!["message"])
+                }
             }
             
         })
     }
     
+    func newMsgNotifi(title:String?,body:String?){
+//        UIApplication.sharedApplication().cancelAllLocalNotifications()
+        var msgBody:String!
+        if body!.hasPrefix("image:") {
+            msgBody = "发来一张图片"
+        }else{
+            msgBody = ":" + body!
+        }
+        var notification = UILocalNotification()
+        notification.timeZone = NSTimeZone.localTimeZone()
+        notification.alertTitle = title
+        notification.alertBody = title! + msgBody
+        notification.alertAction = "OK"
+        notification.soundName = UILocalNotificationDefaultSoundName
+        notification.applicationIconBadgeNumber = 1
+        
+        var userInfo:[NSObject : AnyObject] = [NSObject : AnyObject]()
+        userInfo["kLocalNotificationID"] = "LocalNotificationID"
+        userInfo["key"] = "Attention Please"
+        notification.userInfo = userInfo
+        UIApplication.sharedApplication().presentLocalNotificationNow(notification)
+    }
     func transmitAccountMsg(mail:String){
-        let myRootRef = Wilddog(url:self.WilddogURL)
+        let myRootRef = Wilddog(url:WilddogURL)
         let accountRef = myRootRef.childByAppendingPath("UserAccount")
         accountRef.queryOrderedByChild("mail").observeEventType(.Value, withBlock: { snapshot in
             for var i=0 ; i<Int(snapshot.childrenCount) ; ++i {
@@ -418,7 +445,7 @@ class ViewController: UIViewController,
         let str:String = self.bottomView.textField!.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         if !self.bottomView.textField!.text!.isEmpty && !str.isEmpty {
 //            print("\(!self.bottomView.textField!.text!.isEmpty)  \(self.bottomView.textField!.text!)")
-            let myRootRef = Wilddog(url:self.WilddogURL)
+            let myRootRef = Wilddog(url:WilddogURL)
             let msgRef = myRootRef.childByAppendingPath("UserMsg")
             msgRef.removeObserverWithHandle(self.observerHandle)
             let Ref = msgRef.childByAutoId()

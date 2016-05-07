@@ -40,7 +40,7 @@ class TestViewController: UIViewController, UIImagePickerControllerDelegate ,UIN
         
 //        childChange()
         
-        getPicFromAlbum()
+//        getPicFromAlbum()
     }
     
     func getPicFromAlbum(){
