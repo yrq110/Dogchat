@@ -8,13 +8,20 @@
 
 import UIKit
 import Wilddog
-class TestViewController: UIViewController, UIImagePickerControllerDelegate ,UINavigationControllerDelegate{
+import MapKit
+class TestViewController: UIViewController,
+                        UIImagePickerControllerDelegate,
+                        UINavigationControllerDelegate,
+                        MKMapViewDelegate,
+                        CLLocationManagerDelegate{
     let WilddogURL = "https://yrq.wilddogio.com"
     var whiteActivityIndicator : UIActivityIndicatorView!
     var thumbnailImageView : UIImageView!
     var imageStr : String!
     var thumbnailImageStr : String!
     var isOrigin = false
+    var locationManager = CLLocationManager()
+    var mapView = MKMapView()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -41,6 +48,112 @@ class TestViewController: UIViewController, UIImagePickerControllerDelegate ,UIN
 //        childChange()
         
 //        getPicFromAlbum()
+        
+        mapkit()
+    }
+    
+    func mapkit(){
+        
+        if !CLLocationManager.locationServicesEnabled() {
+            print("定位服务当前可能尚未打开，请设置打开！")
+        }
+        
+        if (CLLocationManager.authorizationStatus() == CLAuthorizationStatus.NotDetermined){
+            locationManager.requestWhenInUseAuthorization()
+            print("no")
+        }else if(CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedWhenInUse){
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            let distance:CLLocationDistance = 2.0
+            locationManager.distanceFilter = distance
+            locationManager.startUpdatingLocation()
+            print("yes")
+        }
+        
+        mapView.frame = self.view.frame
+        view.addSubview(mapView)
+        mapView.delegate = self
+        mapView.userTrackingMode = MKUserTrackingMode.Follow
+        mapView.mapType = MKMapType.Standard
+        
+        
+        addAnnotation()
+    }
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let location:CLLocation? = locations.first
+        let coordinate:CLLocationCoordinate2D = location!.coordinate
+        print("经度：\(coordinate.longitude),纬度：\(coordinate.latitude),海拔：\(location!.altitude),航向：\(location!.course),行走速度：\(location!.speed)")
+        let latDelta = 0.05
+        let longDelta = 0.05
+        let currentLocationSpan:MKCoordinateSpan = MKCoordinateSpanMake(latDelta, longDelta)
+        let center:CLLocation = CLLocation(latitude: location!.coordinate.latitude, longitude: location!.coordinate.longitude)
+        let currentRegion:MKCoordinateRegion = MKCoordinateRegion(center: center.coordinate,
+            span: currentLocationSpan)
+        mapView.setRegion(currentRegion, animated: true)
+//        self.locationManager.stopUpdatingLocation()
+    }
+    
+    func addAnnotation(){
+//        let location1 = CLLocationCoordinate2DMake(39.95, 116.35)
+//        let annotaion1 = RQAnnotation(coordinate: location1,title: "123",subtitle: "456")
+//        self.mapView.addAnnotation(annotaion1)
+        
+        let objectAnnotation = MKPointAnnotation()
+        //设置大头针的显示位置
+        objectAnnotation.coordinate = CLLocation(latitude: 39.95,
+            longitude: 116.35).coordinate
+        //设置点击大头针之后显示的标题
+        objectAnnotation.title = "南京夫子庙"
+        //设置点击大头针之后显示的描述
+        objectAnnotation.subtitle = "南京市秦淮区秦淮河北岸中华路"
+        //添加大头针
+        self.mapView.addAnnotation(objectAnnotation)
+    }
+    
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        if annotation is MKUserLocation {
+            return nil
+        }
+//        else{
+//            return nil
+//        }
+        
+        let reuserId = "pin"
+        var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuserId)
+            as? MKPinAnnotationView
+        if pinView == nil {
+            //创建一个大头针视图
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuserId)
+            pinView?.canShowCallout = true
+            pinView?.animatesDrop = true
+            //设置大头针颜色
+//            pinView?.pinTintColor = UIColor.greenColor()
+            //设置大头针点击注释视图的右侧按钮样式
+            pinView?.leftCalloutAccessoryView = UIImageView(image: UIImage(named: "sun.png"))
+            pinView?.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure)
+        }else{
+            pinView?.annotation = annotation
+        }
+        return pinView
+//        if annotation.isKindOfClass(RQAnnotation) {
+//            let key = "AnnotationKey"
+//            let annotationView = self.mapView.dequeueReusableAnnotationViewWithIdentifier(key)
+//            if annotationView == nil {
+//                let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: key)
+//                annotationView.canShowCallout = true
+//                annotationView.calloutOffset = CGPointMake(0,1)
+//                annotationView.leftCalloutAccessoryView = UIImageView(image: UIImage(named: "sun.png"))
+//                annotationView.rightCalloutAccessoryView = UIButton(type:.DetailDisclosure)
+//                print("hahaha")
+//            }else{
+//                annotationView?.annotation = annotation
+//                annotationView?.image = (annotation as! RQAnnotation).image
+//            }
+//            return annotationView
+//        }else{
+//            return nil
+//        }
     }
     
     func getPicFromAlbum(){

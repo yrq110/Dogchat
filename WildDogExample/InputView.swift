@@ -49,7 +49,7 @@ class InputView: UIView,UITextFieldDelegate {
         rightBtn = UIButton(type:.Custom)
         rightBtn.frame = CGRectMake(textField.frame.origin.x+textField.frame.size.width+Interval, Interval, 0.08*SCREEN_WIDTH, Btn_Height)
         rightBtn.setTitle(":)", forState: UIControlState.Normal)
-        rightBtn.addTarget(self, action: "rightBtnClick:", forControlEvents: UIControlEvents.TouchUpInside)
+//        rightBtn.addTarget(self, action: #selector(InputView.rightBtnClick(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         BtnStyle(rightBtn)
         backView.addSubview(rightBtn)
 
@@ -61,13 +61,13 @@ class InputView: UIView,UITextFieldDelegate {
 
         self.addSubview(backView)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector:Selector("keyboardWillChange:"), name: UIKeyboardWillChangeFrameNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector:#selector(InputView.keyboardWillChange(_:)), name: UIKeyboardWillChangeFrameNotification, object: nil)
     }
     
-    func rightBtnClick(sender:UIButton){
-        print("oh")
-    
-    }
+//    func rightBtnClick(sender:UIButton){
+//        print("oh")
+//    
+//    }
     
     func keyboardWillChange(notif:NSNotification){
         let userInfo:NSDictionary = notif.userInfo!;

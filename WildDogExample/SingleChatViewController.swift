@@ -8,7 +8,11 @@
 
 import UIKit
 import Wilddog
-class SingleChatViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate {
+class SingleChatViewController: UIViewController,
+                                UITableViewDelegate,
+                                UITableViewDataSource,
+                                UITextFieldDelegate,
+                                UIActionSheetDelegate{
 
     let myRootRef = Wilddog(url:WilddogURL)
     var msgPath:String!
@@ -18,6 +22,8 @@ class SingleChatViewController: UIViewController,UITableViewDelegate,UITableView
     var testText = Array<String>()
     var userID = ""
     var userNickname = ""
+    var imageStr : String!
+
     var initLoad = true
     var chatMsgArray = Array<String>()
     var dic = Dictionary<String,Dictionary<String,String>>()
@@ -37,6 +43,7 @@ class SingleChatViewController: UIViewController,UITableViewDelegate,UITableView
     func getName(name:String,id:String,myName:String){
         
         self.title = name
+        OtherName = name
         self.userID = id
         self.userNickname = myName
         initMessage()
@@ -46,7 +53,8 @@ class SingleChatViewController: UIViewController,UITableViewDelegate,UITableView
     
     func mainViewInit(){
         
-        tableView = UITableView(frame: CGRectMake(0, 0.0959*SCREEN_HEIGHT-64, SCREEN_WIDTH, 0.8291*SCREEN_HEIGHT+64) ,style: UITableViewStyle.Plain)
+        tableView = UITableView(frame: CGRectMake(0, 70, SCREEN_WIDTH, 0.8291*SCREEN_HEIGHT+64) ,style: UITableViewStyle.Plain)
+//        tableView = UITableView(frame: CGRectMake(0, 0.0959*SCREEN_HEIGHT-64, SCREEN_WIDTH, 0.8291*SCREEN_HEIGHT+64) ,style: UITableViewStyle.Plain)
         tableView!.dataSource = self
         tableView!.delegate = self
         tableView!.registerClass(UITableViewCell.self, forCellReuseIdentifier: "SingleChatMessageCell")
@@ -55,10 +63,27 @@ class SingleChatViewController: UIViewController,UITableViewDelegate,UITableView
         view.addSubview(tableView!)
         
         self.bottomView = InputView(frame:CGRectMake(0,0.925*SCREEN_HEIGHT,SCREEN_WIDTH,0.075*SCREEN_HEIGHT))
-        self.bottomView.textField!.delegate = self
-        self.bottomView.sendBtn!.addTarget(self, action: "sendAction:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.bottomView.textField.delegate = self
+        self.bottomView.leftBtn.addTarget(self, action: #selector(SingleChatViewController.leftAction(_:)), forControlEvents: .TouchUpInside)
+        self.bottomView.sendBtn.addTarget(self, action: #selector(SingleChatViewController.sendAction(_:)), forControlEvents: .TouchUpInside)
         self.view.addSubview(self.bottomView)
     
+    }
+    
+    func leftAction(sender:AnyObject){
+        let mapVC = MKMapViewController()
+        print("msgPath is \(self.userNickname),\(self.msgPath)")
+        if self.msgPath == nil{
+            self.msgPath = "PrivateMsg"+"/"+self.userNickname+"/"+self.title!
+        }
+        mapVC.transValue(self.userID, userNickname: self.userNickname, msgPath: self.msgPath, isMyLocation: true, isOtherLocation: false)
+        self.navigationController!.pushViewController(mapVC, animated: true)
+    }
+    
+    func otherLocation(){
+        let mapVC = MKMapViewController()
+        mapVC.transValue(self.userID, userNickname: self.userNickname, msgPath: self.msgPath, isMyLocation: false, isOtherLocation: true)
+        self.navigationController!.pushViewController(mapVC, animated: true)
     }
     
     func initMessage(){
@@ -76,7 +101,7 @@ class SingleChatViewController: UIViewController,UITableViewDelegate,UITableView
                 userRef.queryOrderedByKey().observeEventType(.ChildAdded, withBlock: { snapshot in
                     self.dic[snapshot.key] = snapshot.value as? Dictionary
                     self.chatMsgArray.append(snapshot.key)
-                    i++
+                    i += 1
                     if i == count {
                         userRef.removeAllObservers()
                         print("removed")
@@ -90,7 +115,7 @@ class SingleChatViewController: UIViewController,UITableViewDelegate,UITableView
             }
         })
         
-       
+       print("init successed,\(self.msgPath)")
     }
     
     func initMessageAgain(){
@@ -108,34 +133,62 @@ class SingleChatViewController: UIViewController,UITableViewDelegate,UITableView
                 userRef.queryOrderedByKey().observeEventType(.ChildAdded, withBlock: { snapshot in
                     self.dic[snapshot.key] = snapshot.value as? Dictionary
                     self.chatMsgArray.append(snapshot.key)
-                    i++
+                    i += 1
                     if i == count {
                         userRef.removeAllObservers()
                         print("removed")
                         self.tableView!.reloadData()
                         self.initLoad = false
-                        
 //                        self.refreshMessage()
                     }
                 })
             }else {
-                print("nil")
+                print("no message")
+                self.msgPath = "PrivateMsg"+"/"+self.title!+"/"+self.userNickname
+                self.initLoad = false
+                self.refreshMessage()
             }
         })
+        
+        print("init successed,\(self.msgPath)")
+
     }
     
     
     func refreshMessage(){
-//        if self.msgPath == nil {
-//            print("nil msgPath")
-//        } else {
+        
         let userRef = myRootRef.childByAppendingPath(self.msgPath)
         userRef.observeEventType(.ChildAdded, withBlock: { snapshot in
             if !self.initLoad {
-                print("childadded")
+                print("childadded\n" + "key:\(snapshot.key)\n value:\(snapshot.value)")
+//                print(snapshot.value)
                 self.dic[snapshot.key] = snapshot.value as? Dictionary
-                self.chatMsgArray.append(snapshot.key)
-                self.tableView!.reloadData()
+                let message:String = self.dic[snapshot.key]!["message"]!
+                let nickname:String = self.dic[snapshot.key]!["nickname"]!
+                if message.hasPrefix("position:") {
+                    if nickname != self.userNickname {
+                        OtherName = nickname
+                        let coordinate = message.componentsSeparatedByString(":")[1].componentsSeparatedByString(",")
+//                        print("coordinate is \(coordinate)")
+//                        print("longitude is \(coordinate[0]),latitude is \(coordinate[1])")
+                        (OtherPostion["longitude"],OtherPostion["latitude"]) = (coordinate[0],coordinate[1])
+                        let alertController = UIAlertController(title: "提示",
+                            message: "对方开启了位置共享", preferredStyle: UIAlertControllerStyle.Alert)
+                        let cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil)
+                        let okAction = UIAlertAction(title: "好的", style: UIAlertActionStyle.Default,
+                            handler: {
+                                action in
+                                self.otherLocation()
+                        })
+                        alertController.addAction(cancelAction)
+                        alertController.addAction(okAction)
+                        self.presentViewController(alertController, animated: true, completion: nil)
+                        
+                    }
+                }else{
+                    self.chatMsgArray.append(snapshot.key)
+                    self.tableView!.reloadData()
+                }
             }
             
         })
@@ -188,33 +241,55 @@ class SingleChatViewController: UIViewController,UITableViewDelegate,UITableView
         let message:String = self.dic[key]!["message"]!
         let nickName:String = self.dic[key]!["nickname"]!
         
+        if message.hasPrefix("image:") {
+            imageStr = (message.substringFromIndex(message.startIndex.advancedBy(6)))
+            cell.isImage = true
+//        }else if message.hasPrefix("position:"){
+//            cell.ispo
+        }else{
+            cell.isImage = false
+        }
+        
         if nickName == self.userNickname {
             cell.myCell()
-            cell.isMyCell = true
         }else{
             cell.otherCell()
-            cell.isMyCell = false
         }
         
-        cell.msgLabel!.text = message
-        cell.msgLabel!.sizeToFit()
-        var rect:CGRect = cell.msgLabel!.frame
-//        rect.size.width = msgWidth
-        cell.msgLabel!.frame = rect
-        
-        var rect2:CGRect = cell.msgBackView!.frame
-        rect2.size.height = rect.size.height + 20.0
-        if rect.size.width < msgWidth {
-            rect2.size.width = rect.size.width + 20.0
+        if !cell.isImage {
+            cell.msgLabel!.text = message
+            cell.msgLabel!.sizeToFit()
+            let rect:CGRect = cell.msgLabel!.frame
+            cell.msgLabel!.frame = rect
+            
+            var rect2:CGRect = cell.msgBackView!.frame
+            rect2.size.height = rect.size.height + 20.0
+            if rect.size.width < msgWidth {
+                rect2.size.width = rect.size.width + 20.0
+            }
+            cell.msgBackView!.frame = rect2
+            
+            if cell.isMyCell && rect.size.width != msgWidth {
+                cell.msgLabel!.frame.origin.x = SCREEN_WIDTH - cell.avatar!.yrq_width - cell.msgLabel!.yrq_width - 20
+                cell.msgBackView!.frame.origin.x = SCREEN_WIDTH - cell.avatar!.yrq_width - cell.msgBackView!.yrq_width - 10
+            }
+            
+            UITableViewCellSelectionStyle.None
+            self.cellHeight[indexPath.row] = cell.msgBackView!.yrq_height+20.0
+        } else {
+            let imageData = NSData(base64EncodedString: imageStr, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)
+            let image = UIImage(data: imageData!)
+            cell.msgImageView!.frame.size = CGSizeMake(image!.size.width, image!.size.height)
+            cell.msgImageView!.image = image
+            if cell.isMyCell {
+                cell.msgImageView!.frame.origin.x = SCREEN_WIDTH - cell.avatar!.yrq_width - cell.msgImageView!.yrq_width - 20
+                print(cell.msgImageView!.frame)
+            }
+            
+            UITableViewCellSelectionStyle.None
+            self.cellHeight[indexPath.row] = cell.msgImageView!.yrq_height+20.0
         }
-        cell.msgBackView!.frame = rect2
-        UITableViewCellSelectionStyle.None
-        self.cellHeight[indexPath.row] = cell.msgBackView!.yrq_height+10.0
         
-        if cell.isMyCell && rect.size.width != msgWidth {
-            cell.msgLabel!.frame.origin.x = SCREEN_WIDTH - cell.avatar!.yrq_width - cell.msgLabel!.yrq_width - 20
-            cell.msgBackView!.frame.origin.x = SCREEN_WIDTH - cell.avatar!.yrq_width - cell.msgBackView!.yrq_width - 10
-        }
         return cell
     }
     

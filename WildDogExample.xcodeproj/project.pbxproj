@@ -81,9 +81,13 @@
 		7A7ECD2A1CAC32320065FD5D /* AFBrushBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A7ECD291CAC32320065FD5D /* AFBrushBoard.swift */; };
 		7A7ECD2E1CAC32880065FD5D /* PenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A7ECD2D1CAC32880065FD5D /* PenViewController.swift */; };
 		7A9D0A261CB1018B002E3523 /* AnimeTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9D0A251CB1018B002E3523 /* AnimeTestViewController.swift */; };
+		7A9DCB571CDEDF0F008A4981 /* MKMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9DCB561CDEDF0F008A4981 /* MKMapViewController.swift */; };
 		7AA04CB81CAE48FD004189AE /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA04CB71CAE48FD004189AE /* LoginViewController.swift */; };
 		7AA4C04E1CAF48820098C06E /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA4C04D1CAF48820098C06E /* TestViewController.swift */; };
 		7AB1D0111CAEA8D500D105D7 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AB1D0101CAEA8D500D105D7 /* RegisterView.swift */; };
+		7ABC4B9E1CDE354600F30A5C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ABC4B9D1CDE354600F30A5C /* MapKit.framework */; };
+		7ABC4BA01CDE37A600F30A5C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ABC4B9F1CDE37A600F30A5C /* CoreLocation.framework */; };
+		7ABC4BA21CDE40E100F30A5C /* RQAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC4BA11CDE40E100F30A5C /* RQAnnotation.swift */; };
 		7AEB2ED01CB2242C0081FD31 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AEB2ECF1CB2242C0081FD31 /* UIView+Extension.swift */; };
 		7AEC4E311CAA438700074E61 /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AEC4E301CAA438700074E61 /* InputView.swift */; };
 /* End PBXBuildFile section */
@@ -203,9 +207,13 @@
 		7A7ECD291CAC32320065FD5D /* AFBrushBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AFBrushBoard.swift; sourceTree = "<group>"; };
 		7A7ECD2D1CAC32880065FD5D /* PenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PenViewController.swift; sourceTree = "<group>"; };
 		7A9D0A251CB1018B002E3523 /* AnimeTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimeTestViewController.swift; sourceTree = "<group>"; };
+		7A9DCB561CDEDF0F008A4981 /* MKMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKMapViewController.swift; sourceTree = "<group>"; };
 		7AA04CB71CAE48FD004189AE /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		7AA4C04D1CAF48820098C06E /* TestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		7AB1D0101CAEA8D500D105D7 /* RegisterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		7ABC4B9D1CDE354600F30A5C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		7ABC4B9F1CDE37A600F30A5C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		7ABC4BA11CDE40E100F30A5C /* RQAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RQAnnotation.swift; sourceTree = "<group>"; };
 		7AEB2ECF1CB2242C0081FD31 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		7AEC4E301CAA438700074E61 /* InputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -215,6 +223,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7ABC4BA01CDE37A600F30A5C /* CoreLocation.framework in Frameworks */,
+				7ABC4B9E1CDE354600F30A5C /* MapKit.framework in Frameworks */,
 				7A49CB771CA6E87100BFD13E /* libsqlite3.tbd in Frameworks */,
 				7A49CB751CA6E86A00BFD13E /* JavaScriptCore.framework in Frameworks */,
 				7A49CB731CA6E84700BFD13E /* Wilddog.framework in Frameworks */,
@@ -258,6 +268,7 @@
 				7A7ECCEF1CAC0E060065FD5D /* Bridging-Header.h */,
 				7A78FB8E1CBE63FD00249BBD /* ConstantValue.swift */,
 				7A49CB4F1CA6E81300BFD13E /* AppDelegate.swift */,
+				7ABC4BA11CDE40E100F30A5C /* RQAnnotation.swift */,
 				7AA4C04D1CAF48820098C06E /* TestViewController.swift */,
 				7A9D0A251CB1018B002E3523 /* AnimeTestViewController.swift */,
 				7A6C7CA21CB9FAD6008EDEC1 /* NSString+Encrypt.swift */,
@@ -313,6 +324,8 @@
 			isa = PBXGroup;
 			children = (
 				7A7ECD291CAC32320065FD5D /* AFBrushBoard.swift */,
+				7ABC4B9F1CDE37A600F30A5C /* CoreLocation.framework */,
+				7ABC4B9D1CDE354600F30A5C /* MapKit.framework */,
 				7A6C7CA41CBC8B5A008EDEC1 /* AsciiArt */,
 				7A7E22E71CB7F54900BF2048 /* SDWebImage */,
 				7A63F66C1CACB4200002C646 /* SBLoaderAnimation */,
@@ -456,6 +469,7 @@
 		7A7ECD281CAC309E0065FD5D /* ContactsViewGroup */ = {
 			isa = PBXGroup;
 			children = (
+				7A9DCB561CDEDF0F008A4981 /* MKMapViewController.swift */,
 				7A7ECCED1CAB9A220065FD5D /* ContactsViewController.swift */,
 				7A23D4BF1CC67DD0006CCDAA /* ContactsTableViewCell.swift */,
 				7A6C7CA01CB9F4C9008EDEC1 /* SingleChatViewController.swift */,
@@ -516,7 +530,6 @@
 				TargetAttributes = {
 					7A49CB4B1CA6E81300BFD13E = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = 24WT5Z7ZAA;
 					};
 					7A49CB621CA6E81300BFD13E = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -587,6 +600,7 @@
 				7A63F6751CACB4200002C646 /* ButtonBoobView.swift in Sources */,
 				7A63F6771CACB4200002C646 /* HolderView.swift in Sources */,
 				7A7E23151CB7F54900BF2048 /* UIImage+WebP.m in Sources */,
+				7A9DCB571CDEDF0F008A4981 /* MKMapViewController.swift in Sources */,
 				7A63F67D1CACB5A30002C646 /* BoardViewController.swift in Sources */,
 				7A582F241CB4B9BD001CFE14 /* ParseDateStringClass.swift in Sources */,
 				7A7ECD1E1CAC10C40065FD5D /* SeventhTangramView.m in Sources */,
@@ -631,6 +645,7 @@
 				7A63F6761CACB4200002C646 /* Colors.swift in Sources */,
 				7A49CB581CA6E81300BFD13E /* WildDogExample.xcdatamodeld in Sources */,
 				7A582F2C1CB4EBE3001CFE14 /* MoonArcLayer.swift in Sources */,
+				7ABC4BA21CDE40E100F30A5C /* RQAnnotation.swift in Sources */,
 				7A7E230A1CB7F54900BF2048 /* NSData+ImageContentType.m in Sources */,
 				7A7ECD2A1CAC32320065FD5D /* AFBrushBoard.swift in Sources */,
 				7A7ECD1D1CAC10C40065FD5D /* SecondTangramView.m in Sources */,
@@ -772,6 +787,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = WildDogExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = yrq.WildDogExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -789,6 +805,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = WildDogExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = yrq.WildDogExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";

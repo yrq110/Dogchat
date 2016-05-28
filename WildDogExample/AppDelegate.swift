@@ -29,14 +29,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         //LoginViewController
 //        let nvc = LoginViewController()
-        
+//        let nvc = PersonDetailViewController()
         //TestViewContrller
 //        let nvc = TestViewController()
 //        let nvc = AnimeTestViewController()
 //        let nvc = AmuseViewController()
         self.window!.rootViewController=nvc
         
-        notificationVerify(application)
+//        notificationVerify(application)
         
         return true
     }

@@ -27,11 +27,7 @@ class ViewController: UIViewController,
     var newMessagesOnTop = true
     var initialAdds = true
     var isAddsOn = false
-    var userMail:String!
-    var userNickName:String!
-    var imageStr : String!
-    var thumbnailImageStr : String!
-    var userID:String!
+    var userMail,userNickName,imageStr,thumbnailImageStr,userID:String!
     var endCellRow = 0
     var isFirstLoad = true
     var observerHandle:WilddogHandle!
@@ -55,16 +51,16 @@ class ViewController: UIViewController,
         
         self.MainViewInit()
         
-        self.userMail = "444@444.com"
-        self.authUserLogin(self.userMail, password: "444")
+        self.userMail = "111@111.com"
+        self.authUserLogin(self.userMail, password: "111")
         
 
 //        NSNotificationCenter.defaultCenter().addObserver(self, selector:Selector("keyboardWillChange:"), name: UIKeyboardWillChangeFrameNotification, object: nil)
         
-        let leftItem = UIBarButtonItem(title:"Contacts",style:.Plain,target:self,action:"leftVC");
+        let leftItem = UIBarButtonItem(title:"Contacts",style:.Plain,target:self,action:#selector(ViewController.leftVC));
         self.navigationItem.leftBarButtonItem = leftItem;
         
-        let rightItem = UIBarButtonItem(title:"Other",style:.Plain,target:self,action:"rightVC");
+        let rightItem = UIBarButtonItem(title:"Other",style:.Plain,target:self,action:#selector(ViewController.rightVC));
         navigationItem.rightBarButtonItem = rightItem;
         
     }
@@ -117,13 +113,16 @@ class ViewController: UIViewController,
         
         self.bottomView = InputView(frame:CGRectMake(0,0.925*SCREEN_HEIGHT,SCREEN_WIDTH,0.075*SCREEN_HEIGHT))
         self.bottomView.textField.delegate = self
-        self.bottomView.sendBtn.addTarget(self, action: "sendAction:", forControlEvents: UIControlEvents.TouchUpInside)
-        self.bottomView.rightBtn.addTarget(self, action: "rightBtnClick:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.bottomView.sendBtn.addTarget(self, action: #selector(ViewController.sendAction(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        self.bottomView.rightBtn.addTarget(self, action: #selector(ViewController.rightBtnClick(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(self.bottomView)
         
     }
     
     func rightBtnClick(sender:UIButton){
+        
+        self.bottomView.textField!.resignFirstResponder()
+
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         self.showViewController(imagePicker, sender: self)
@@ -149,6 +148,7 @@ class ViewController: UIViewController,
             let msg = ["ID":self.userID,"nickname":self.userNickName,"message":str,"time":self.getTime()]
             Ref.setValue(msg)
         }
+        
     }
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController)
@@ -193,6 +193,7 @@ class ViewController: UIViewController,
                         let mail = snapshot.value["mail"] as! String
                         if mail == self.userMail{
                             self.userNickName = nickname
+                            MyName = nickname
                             self.userID = authData.uid
                             self.msgInitialAdd()
                             self.addEvent()
@@ -373,7 +374,7 @@ class ViewController: UIViewController,
             
             UITableViewCellSelectionStyle.None
             self.cellHeight[indexPath.row] = cell.msgBackView!.yrq_height+20.0
-        }else{
+        } else {
             let imageData = NSData(base64EncodedString: imageStr, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)
             let image = UIImage(data: imageData!)
             cell.msgImageView!.frame.size = CGSizeMake(image!.size.width, image!.size.height)

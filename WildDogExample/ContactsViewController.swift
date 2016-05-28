@@ -75,9 +75,13 @@ class ContactsViewController: UIViewController,UITableViewDelegate,UITableViewDa
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
+//        let personView = PersonDetailViewController()
+//        self.navigationController!.pushViewController(personView, animated: true)
+        
         let singleView = SingleChatViewController()
         singleView.getName(self.userArray[indexPath.row],id: self.userID,myName: self.userNickname)
         self.navigationController!.pushViewController(singleView, animated: true)
+        
 //        let image = UIImage(named: "sun")
 //        let person = PersonDetailView(frame: self.view.frame)
 //        person.setMessage(image!, nickname_: self.userArray[indexPath.row], name_: "Dong", position_: self.mailArray[indexPath.row], department_: self.mailArray[indexPath.row])

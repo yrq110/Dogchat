@@ -66,7 +66,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         loginBtn.layer.cornerRadius = 10.0
         loginBtn.layer.borderWidth = 1.0
         loginBtn.setTitle("Login", forState: UIControlState.Normal)
-        loginBtn.addTarget(self, action: "loginAction:", forControlEvents: UIControlEvents.TouchUpInside)
+        loginBtn.addTarget(self, action: #selector(LoginViewController.loginAction(_:)), forControlEvents: UIControlEvents.TouchUpInside)
 //        loginBtn.setTitleColor(UIColor.blackColor(), forState: UIControlState.Highlighted)
         self.view.addSubview(loginBtn)
         

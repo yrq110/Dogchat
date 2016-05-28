@@ -10,18 +10,16 @@ import UIKit
 
 class SingleChatMessageCell: UITableViewCell {
     
-    var nickLabel:UILabel?
-    var timeLabel:UILabel?
-    var msgLabel:UILabel?
+    var nickLabel,timeLabel,msgLabel:UILabel?
     var msgBackView:UIView?
-    var avatar:UIImageView?
-    var msgImageView:UIImageView?
+    var avatar,msgImageView:UIImageView?
     var msgTap:UITapGestureRecognizer!
     var msgPress:UILongPressGestureRecognizer!
     var imageTap:UITapGestureRecognizer!
     let move = MoveClass()
     var isMyCell = true
     var isImage = false
+    var isPostion = false
     let shallowGreen = UIColor.init(red: 0, green: 1, blue: 0, alpha: 0.3)
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -83,14 +81,14 @@ class SingleChatMessageCell: UITableViewCell {
     
     func addLabelGesture(){
         msgPress = UILongPressGestureRecognizer()
-        msgPress.addTarget(self, action: "labelGesture:")
+        msgPress.addTarget(self, action: #selector(SingleChatMessageCell.labelGesture(_:)))
         self.msgLabel!.addGestureRecognizer(msgPress)
         self.msgLabel!.userInteractionEnabled = true
     }
     
     func addImageGesture(){
         imageTap = UITapGestureRecognizer()
-        imageTap.addTarget(self, action: "imageGesture:")
+        imageTap.addTarget(self, action: #selector(SingleChatMessageCell.imageGesture(_:)))
         msgImageView!.addGestureRecognizer(imageTap)
         msgImageView!.userInteractionEnabled = true
     }
