@@ -11,7 +11,6 @@ import Wilddog
 
 class ContactsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
-    let WilddogURL = "https://yrq.wilddogio.com"
     var cellHeight = Dictionary<Int,CGFloat>()
     var tableView:UITableView?
     var userArray:Array<String>!
@@ -103,7 +102,7 @@ class ContactsViewController: UIViewController,UITableViewDelegate,UITableViewDa
         self.userID = id
         self.userNickname = nickname
         self.userArray = Array<String>()
-        let myRootRef = Wilddog(url:self.WilddogURL)
+        let myRootRef = Wilddog(url:WilddogURL)
         let accountRef = myRootRef.childByAppendingPath("UserAccount")
         accountRef.queryOrderedByChild("mail").observeSingleEventOfType(.Value, withBlock: { snapshot in
             for i in (snapshot.value as! Dictionary<String,Dictionary<String,String>>) {

@@ -11,7 +11,7 @@ import Foundation
 let SCREEN_WIDTH = UIScreen.mainScreen().bounds.size.width
 let SCREEN_HEIGHT = UIScreen.mainScreen().bounds.size.height
 let msgWidth:CGFloat = 180.0
-let WilddogURL = "https://yrq.wilddogio.com"
+let WilddogURL = "your_repository_address"
 var MyName = ""
 var OtherName = ""
 var MyPosition = Dictionary<String,String>()

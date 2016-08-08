@@ -144,6 +144,7 @@ class SingleChatViewController: UIViewController,
                 })
             }else {
                 print("no message")
+                //无路径时初始化存储路径，开始监听数据刷新
                 self.msgPath = "PrivateMsg"+"/"+self.title!+"/"+self.userNickname
                 self.initLoad = false
                 self.refreshMessage()

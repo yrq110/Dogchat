@@ -264,10 +264,9 @@
 		7A49CB4E1CA6E81300BFD13E /* WildDogExample */ = {
 			isa = PBXGroup;
 			children = (
-				7A582F351CB4FF6C001CFE14 /* Resources */,
+				7A49CB4F1CA6E81300BFD13E /* AppDelegate.swift */,
 				7A7ECCEF1CAC0E060065FD5D /* Bridging-Header.h */,
 				7A78FB8E1CBE63FD00249BBD /* ConstantValue.swift */,
-				7A49CB4F1CA6E81300BFD13E /* AppDelegate.swift */,
 				7ABC4BA11CDE40E100F30A5C /* RQAnnotation.swift */,
 				7AA4C04D1CAF48820098C06E /* TestViewController.swift */,
 				7A9D0A251CB1018B002E3523 /* AnimeTestViewController.swift */,
@@ -277,6 +276,7 @@
 				7A582F231CB4B9BD001CFE14 /* ParseDateStringClass.swift */,
 				7A582F251CB4BAB0001CFE14 /* ResponseToAnimeView.swift */,
 				7A78FB901CBE786300249BBD /* triangleView.swift */,
+				7A582F351CB4FF6C001CFE14 /* Resources */,
 				7A7ECD281CAC309E0065FD5D /* ContactsViewGroup */,
 				7A7ECD271CAC30850065FD5D /* MainViewGroup */,
 				7A7ECD261CAC30580065FD5D /* CanvasViewGroup */,

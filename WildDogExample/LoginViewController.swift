@@ -24,7 +24,6 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     var registerBtn:UIButton!
     var registerView:RegisterView!
     var accountDic = Dictionary<String,String>()
-    let WilddogURL = "https://yrq110.wilddogio.com"
 
     var versionLabel:UILabel!
     override func viewDidLoad() {
@@ -33,7 +32,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         self.view.backgroundColor = UIColor.whiteColor()
         
         titleLabel = UILabel(frame: CGRectMake(SCREEN_WIDTH/2-Title_Width/2,100,Title_Width,30))
-        titleLabel.text = "内部IM软件"
+        titleLabel.text = "Dogchat"
         titleLabel.textAlignment = NSTextAlignment.Center
         titleLabel.font = UIFont.systemFontOfSize(20.0)
         titleLabel.textColor = UIColor.purpleColor()
@@ -120,7 +119,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     }
     
     func authUserLogin(user:String,password:String){
-        let myRootRef = Wilddog(url:self.WilddogURL)
+        let myRootRef = Wilddog(url:WilddogURL)
         myRootRef.authUser(user, password: password) {
             error, authData in
             if error != nil {
