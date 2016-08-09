@@ -13,3 +13,7 @@
 
 ##运行
 需要在ConstantValue.swift文件中将WilddogURL的值改成你自己的wilddog数据库地址。
+
+##介绍
+
+[使用wilddog实现的iOS平台简易聊天软件](http://yrq110.me/2016/08/06/wilddog-im/)
