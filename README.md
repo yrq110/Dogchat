@@ -40,4 +40,4 @@
 ![](http://yrq110.me/img/wilddog-im/14.png)
 
 ## 博文
-[使用wilddog实现的iOS平台简易聊天软件](http://yrq110.me/2016/08/06/wilddog-im/)
+[使用wilddog实现的iOS平台简易聊天软件](http://yrq110.me/2016/08/06/20160806-wilddog-im/)
